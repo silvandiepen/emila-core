@@ -1,0 +1,12 @@
+{
+  "name": "emila-core",
+  "private": true,
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev": "pnpm --filter @emila/admin dev",
+    "dev:worker": "pnpm --filter @emila/worker dev",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "deploy": "pnpm --filter @emila/worker deploy"
+  }
+}
