@@ -1,12 +1,14 @@
 {
-  "name": "emila-core",
-  "private": true,
+  "name": "@emila/core",
+  "version": "0.0.1",
+  "type": "module",
   "packageManager": "pnpm@10.15.0",
+  "exports": "./packages/core/src/index.ts",
+  "files": ["packages/core/src"],
   "scripts": {
-    "dev": "pnpm --filter @emila/admin dev",
-    "dev:worker": "pnpm --filter @emila/worker dev",
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "deploy": "pnpm --filter @emila/worker deploy"
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
   }
 }
