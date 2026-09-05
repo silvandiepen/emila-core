@@ -1,53 +1,29 @@
 # Emila Core
 
-Reusable code-first primitives for Emila.
+Private Emila.dev product and control plane.
 
-## Schema DSL
+This repository is **not** the reusable CMS. The standalone/open-source product lives in `silvandiepen/emila-cms`.
 
-```ts
-import { defineCMS, string, text, file, boolean, collection } from '@emila/core'
+Emila Core owns:
 
-export default defineCMS({
-  locales: {
-    default: 'en',
-    supported: ['en', 'nl', 'mt'],
-    autoTranslate: true,
-  },
-  schema: {
-    website: {
-      kind: 'group',
-      children: {
-        title: string({ localized: true, translatable: true }),
-        projects: collection({
-          title: string({ localized: true, translatable: true }),
-          description: text({ localized: true, translatable: true }),
-          image: file(),
-          featured: boolean(),
-        }),
-      },
-    },
-  },
-})
-```
+- emila.dev marketing
+- account/dashboard UI
+- GitHub App integration
+- Cloudflare OAuth integration
+- schema/setup wizard
+- project generation
+- D1/R2/Worker provisioning
+- Cloudflare Builds orchestration
+- the single Emila MCP/ChatGPT gateway
+- encrypted per-project agent credentials
+- future billing/team/product infrastructure
 
-Schema structure stays in Git. Content values stay in the CMS database.
+It provisions and configures Emila CMS in the customer's own GitHub and Cloudflare accounts.
 
-## Client
+## Repository boundary
 
-```ts
-import { createEmilaClient } from '@emila/core/client'
+`emila-cms` must remain independently cloneable and deployable. Core may consume or copy its template, but CMS must never depend on this private repository.
 
-const cms = createEmilaClient({
-  baseUrl: 'https://cms.example.com',
-  locale: 'en',
-})
+The existing `packages/core` and `packages/client` directories are legacy bootstrap code and should be removed after the v3 control-plane migration. Their schema/client functionality now belongs to `emila-cms`.
 
-const homepage = await cms.get('website/homepage')
-```
-
-The client is deliberately thin. It talks to the deep JSON API exposed by Emila CMS.
-
-## Repositories
-
-- `emila-core`: schema DSL and reusable client
-- `emila-cms`: Vue admin, Cloudflare Worker, D1, R2, auth and Workers AI translation
+See `MIGRATION_PLAN.md` for the one-time consolidation from `silvandiepen/emila:v3`.
